@@ -21,3 +21,23 @@ def assignee_alert(data: dict) -> None | int:
         return 0
 
     return None
+
+
+def notify(data: dict) -> None | int:
+    try:
+        email = data['email']
+        summary = data['summary']
+        issue_link = data['link']
+        state = data['state']
+    except KeyError:
+        return None
+
+    user = get_user_by_email(email)
+
+    if user is not None:
+        bot.send_message(user.telegram_id,
+                         f"У задачи <a href='{issue_link}'>{summary}</a> "
+                         f"новый статус: <b>{state}</b>")
+        return 0
+
+    return None

@@ -23,6 +23,11 @@ class BotUser(models.Model):
                              blank=False
                              )
 
+    notify = models.BooleanField(verbose_name="Уведомление о статусе задач",
+                                 null=False,
+                                 blank=False,
+                                 default=False)
+
     objects = models.Manager()
 
     def __str__(self):

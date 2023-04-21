@@ -9,6 +9,7 @@ class BotUserForm(forms.ModelForm):
                   'nickname',
                   'full_name',
                   'email',
+                  'notify'
                   )
 
         widgets = {
