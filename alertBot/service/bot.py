@@ -1,4 +1,4 @@
-from ... import settings
+import settings
 from alertBot.service.database import *
 from telebot import TeleBot
 from telebot.types import Message
