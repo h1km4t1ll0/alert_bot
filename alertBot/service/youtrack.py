@@ -17,8 +17,8 @@ def assignee_alert(data: dict) -> bool:
     if assignee is not None:
         bot.send_message(assignee.telegram_id,
                          "На вас назначена новая задача!\n\n"
-                         f"Проект: <b>{project}</b>"
-                         f"Название: <a href='{issue_link}'>{summary}</a>\n\n"
+                         f"Проект: <b>{project}</b>\n"
+                         f"Название: <a href='{issue_link}'>{summary}</a>\n"
                          f"Описание: <b>{description}</b>",
                          parse_mode='html')
         return True
@@ -41,7 +41,7 @@ def notify(data: dict) -> bool:
         for user in users:
             bot.send_message(user.telegram_id,
                              f"Новый статус задачи!\n\n"
-                             f"Проект: <b>{project}</b>"
+                             f"Проект: <b>{project}</b>\n"
                              f"Задача: <a href='{issue_link}'>{summary}</a>\n"
                              f"Статус: <b>{state}</b>",
                              parse_mode='html')
