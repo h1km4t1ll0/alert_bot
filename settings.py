@@ -18,7 +18,9 @@ SECRET_KEY = 'django-insecure-@$w+#m)0)ba%vvm86sodc-cnk_=p0h8ti1x2junr$%730n+04q
 
 DEBUG = True if os.environ.get("DEBUG", "") == "True" else False
 
-ALLOWED_HOSTS = ["bot.hikmatillo.ru", '0.0.0.0', '192.168.0.28', '127.0.0.1']
+ALLOWED_HOSTS = ["bot.hikmatillo.ru", '0.0.0.0', '192.168.0.28', '127.0.0.1', 'https://bot.hikmatillo.ru']
+
+CSRF_TRUSTED_ORIGINS=['https://bot.hikmatillo.ru', 'https://*.youtrack.cloud']
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -66,9 +68,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ytb',
-        'USER': os.environ.get('DATABASE_USER', ''),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD', ''),
-        'HOST': os.environ.get('DATABASE_URL', ''),
+        'USER': 'postgres', #os.environ.get('DATABASE_USER', ''),
+        'PASSWORD': 'postgres',  #os.environ.get('DATABASE_PASSWORD', ''),
+        'HOST': 'database', # os.environ.get('DATABASE_URL', ''),
         'PORT': '5432',
     }
 }

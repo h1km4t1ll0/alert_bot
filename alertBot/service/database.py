@@ -19,3 +19,12 @@ def get_user_by_email(email: str) -> BotUser | None:
 
     if len(user) == 1:
         return user[0]
+
+
+def get_users_to_notify() -> list[BotUser] | None:
+    users: [BotUser] = BotUser.objects.filter(notify=True)
+
+    if len(users) == 0:
+        return None
+
+    return users

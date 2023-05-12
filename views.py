@@ -22,7 +22,7 @@ def get_message(request: django.http.HttpRequest):
 @csrf_exempt
 def new_issue(request: django.http.HttpRequest):
     data = json.loads(request.body.decode('utf-8'))
-    if assignee_alert(data) is not None:
+    if assignee_alert(data):
         return HttpResponse('!', 200)
     return HttpResponse('Error', 404)
 
@@ -30,7 +30,7 @@ def new_issue(request: django.http.HttpRequest):
 @csrf_exempt
 def issue_state(request: django.http.HttpRequest):
     data = json.loads(request.body.decode('utf-8'))
-    if notify(data) is not None:
+    if notify(data):
         return HttpResponse('!', 200)
     return HttpResponse('Error', 404)
 

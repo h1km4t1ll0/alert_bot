@@ -1,43 +1,50 @@
 from .bot import bot
-from .database import get_user_by_email
+from .database import get_user_by_email, get_users_to_notify
 
 
-def assignee_alert(data: dict) -> None | int:
+def assignee_alert(data: dict) -> bool:
     try:
         email = data['email']
         description = data['description']
         summary = data['summary']
         issue_link = data['link']
+        project = data['project']
     except KeyError:
-        return None
+        return False
 
     assignee = get_user_by_email(email)
 
     if assignee is not None:
         bot.send_message(assignee.telegram_id,
                          "На вас назначена новая задача!\n\n"
+                         f"Проект: <b>{project}</b>"
                          f"Название: <a href='{issue_link}'>{summary}</a>\n\n"
-                         f"Описание: {description}")
-        return 0
+                         f"Описание: <b>{description}</b>",
+                         parse_mode='html')
+        return True
 
-    return None
+    return False
 
 
-def notify(data: dict) -> None | int:
+def notify(data: dict) -> bool:
     try:
-        email = data['email']
         summary = data['summary']
         issue_link = data['link']
         state = data['state']
+        project = data['project']
     except KeyError:
-        return None
+        return False
 
-    user = get_user_by_email(email)
+    users = get_users_to_notify()
 
-    if user is not None:
-        bot.send_message(user.telegram_id,
-                         f"У задачи <a href='{issue_link}'>{summary}</a> "
-                         f"новый статус: <b>{state}</b>")
-        return 0
+    if users is not None:
+        for user in users:
+            bot.send_message(user.telegram_id,
+                             f"Новый статус задачи!\n\n"
+                             f"Проект: <b>{project}</b>"
+                             f"Задача: <a href='{issue_link}'>{summary}</a>\n"
+                             f"Статус: <b>{state}</b>",
+                             parse_mode='html')
+        return True
 
-    return None
+    return False
