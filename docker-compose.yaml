@@ -16,6 +16,7 @@ services:
         aliases:
           - database
   bot:
+      hostname: alert.com
       build: ./
       command: /srv/telegram_admin/run.sh
       environment:
@@ -27,48 +28,7 @@ services:
         - DEBUG=False
         - DOMAIN=bot.hikmatillo.ru
       ports:
-        - "87:88"
-      depends_on:
-        - database
-      networks:
-        nw:
-          aliases:
-            - bot
-
-networks:
-  nw:
-  share:
-    driver:
-      bridge
-
-volumes:
-  elof_database:
-version: "3"
-services:
-  database:
-    hostname: database
-    image: postgres:15.1-alpine
-    # restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - 5432:5432
-    volumes:
-      - elof_database:/var/lib/postgresql/data
-    networks:
-      nw:
-        aliases:
-          - database
-  bot:
-      build: ./
-      command: /srv/telegram_admin/run.sh
-      environment:
-        - DATABASE_URL=database
-        - BOT_TOKEN=6074772635:AAFKTvl-_QgcqELoSW6PAacEj5eAQvVb2QM
-        - DEBUG=True
-      ports:
-        - "87:88"
+        - "88:88"
       depends_on:
         - database
       networks:

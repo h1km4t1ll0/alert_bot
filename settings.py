@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -90,8 +92,8 @@ BOT_TOKEN = os.environ.get('BOT_TOKEN', '')
 
 # YOUTRACK_TOKEN = os.environ.get('YOUTRACK_TOKEN', '')
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-STATIC_ROOT = '/srv/telegram_admin/static/'
+STATIC_ROOT = '/srv/telegram_admin/static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

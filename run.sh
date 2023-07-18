@@ -10,6 +10,7 @@ sleep 1
 chmod -R u+w /srv/
 python3 manage.py migrate
 sleep 1
+ls -la static
 # chown www-data:www-data /srv/db.sqlite3
 python3 manage.py makemigrations
 sleep 1

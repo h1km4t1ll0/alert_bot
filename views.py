@@ -39,5 +39,9 @@ def issue_state(request: django.http.HttpRequest):
 def new_comment(request: django.http.HttpRequest):
     pass
 
+print(settings.DOMAIN)
 
-bot.set_webhook(url=f'{settings.DOMAIN}/{settings.BOT_TOKEN}')
+try:
+    bot.set_webhook(url=f'{settings.DOMAIN}/{settings.BOT_TOKEN}')
+except Exception as e:
+    print(str(e))
