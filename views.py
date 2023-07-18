@@ -40,4 +40,4 @@ def new_comment(request: django.http.HttpRequest):
     pass
 
 
-bot.set_webhook(url=f'bot.hikmatillo.ru/{settings.BOT_TOKEN}')
+bot.set_webhook(url=f'{settings.DOMAIN}/{settings.BOT_TOKEN}')

@@ -17,10 +17,11 @@ BASE_DIR = Path(__file__).resolve().parent
 SECRET_KEY = 'django-insecure-@$w+#m)0)ba%vvm86sodc-cnk_=p0h8ti1x2junr$%730n+04q'
 
 DEBUG = True if os.environ.get("DEBUG", "") == "True" else False
+DOMAIN = os.environ.get("DOMAIN", "")
 
-ALLOWED_HOSTS = ["bot.hikmatillo.ru", '0.0.0.0', '192.168.0.28', '127.0.0.1', 'https://bot.hikmatillo.ru']
+ALLOWED_HOSTS = [DOMAIN, '0.0.0.0', '192.168.0.28', '127.0.0.1', 'https://{DOMAIN}']
 
-CSRF_TRUSTED_ORIGINS=['https://bot.hikmatillo.ru', 'https://*.youtrack.cloud']
+CSRF_TRUSTED_ORIGINS=['https://{DOMAIN}', 'https://*.youtrack.cloud']
 
 INSTALLED_APPS = [
     'jazzmin',
