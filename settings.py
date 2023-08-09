@@ -21,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent
 
 SECRET_KEY = 'django-insecure-@$w+#m)0)ba%vvm86sodc-cnk_=p0h8ti1x2junr$%730n+04q'
 
-DEBUG = True if os.environ.get("DEBUG", "") in ["True", True] else False
+DEBUG = False if os.environ.get("DEBUG", '') in ["False", False] else True
 DOMAIN = os.environ.get("DOMAIN", "")
 print(DOMAIN)
 ALLOWED_HOSTS = [DOMAIN, '0.0.0.0', '192.168.0.28', '127.0.0.1', 'https://{DOMAIN}']
 
-CSRF_TRUSTED_ORIGINS=[f'https://{DOMAIN}', 'https://*.youtrack.cloud']
+CSRF_TRUSTED_ORIGINS = [f'https://{DOMAIN}', 'https://*.youtrack.cloud']
 print(CSRF_TRUSTED_ORIGINS)
 
 INSTALLED_APPS = [
@@ -115,16 +115,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ytb',
-        'USER': 'postgres', #os.environ.get('DATABASE_USER', ''),
-        'PASSWORD': 'postgres',  #os.environ.get('DATABASE_PASSWORD', ''),
-        'HOST': 'database', # os.environ.get('DATABASE_URL', ''),
-        'PORT': '5432',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+if os.environ.get("SERVER", '') in ["True", True]:
+    DATABASES = {
+        'default': {
+             'ENGINE': 'django.db.backends.postgresql',
+             'NAME': os.environ.get("TABLE_NAME", ''),
+             'USER': os.environ.get('DATABASE_USER', ''),
+             'PASSWORD': os.environ.get('DATABASE_PASSWORD', ''),
+             'HOST':  os.environ.get('DATABASE_URL', ''),
+             'PORT': os.environ.get("DATABASE_PORT", ''),
+         }
+    }
 
 AUTH_PASSWORD_VALIDATORS = []
 
