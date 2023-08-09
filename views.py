@@ -15,6 +15,7 @@ def get_message(request: django.http.HttpRequest):
         json_string = request.body.decode('utf-8')
         update = telebot.types.Update.de_json(json_string)
         bot.process_new_updates([update])
+        #raise Exception('aaaaa')
         return HttpResponse('!', 200)
     return HttpResponse('Method Not Allowed', 405)
 
@@ -39,9 +40,4 @@ def issue_state(request: django.http.HttpRequest):
 def new_comment(request: django.http.HttpRequest):
     pass
 
-print(settings.DOMAIN)
-
-try:
-    bot.set_webhook(url=f'{settings.DOMAIN}/{settings.BOT_TOKEN}')
-except Exception as e:
-    print(str(e))
+bot.set_webhook(url=f'{settings.DOMAIN}/{settings.BOT_TOKEN}')

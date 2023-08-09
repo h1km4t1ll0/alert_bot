@@ -12,18 +12,22 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 import mimetypes
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 mimetypes.add_type("text/css", ".css", True)
 
 BASE_DIR = Path(__file__).resolve().parent
 
 SECRET_KEY = 'django-insecure-@$w+#m)0)ba%vvm86sodc-cnk_=p0h8ti1x2junr$%730n+04q'
 
-DEBUG = True if os.environ.get("DEBUG", "") == "True" else False
+DEBUG = True if os.environ.get("DEBUG", "") in ["True", True] else False
 DOMAIN = os.environ.get("DOMAIN", "")
-
+print(DOMAIN)
 ALLOWED_HOSTS = [DOMAIN, '0.0.0.0', '192.168.0.28', '127.0.0.1', 'https://{DOMAIN}']
 
-CSRF_TRUSTED_ORIGINS=['https://{DOMAIN}', 'https://*.youtrack.cloud']
+CSRF_TRUSTED_ORIGINS=[f'https://{DOMAIN}', 'https://*.youtrack.cloud']
+print(CSRF_TRUSTED_ORIGINS)
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -47,6 +51,50 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'urls'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {funcName} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {asctime} {funcName} {message}',
+            'style': '{',
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': 'debug.log'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'propagate': True
+        },
+        'django.server': {
+            'handlers': ['file'],
+            'propagate': True
+        }
+    }
+}
 
 TEMPLATES = [
     {
@@ -97,3 +145,25 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/srv/telegram_admin/static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+sentry_sdk.init(
+    dsn="https://b72e50ba0aff6984dc495373a8c5ab8b@o1330757.ingest.sentry.io/4505641634234368",
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production,
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True,
+
+    # By default the SDK will try to use the SENTRY_RELEASE
+    # environment variable, or infer a git commit
+    # SHA as release, however you may want to set
+    # something more human-readable.
+    # release="myapp@1.0.0",
+)

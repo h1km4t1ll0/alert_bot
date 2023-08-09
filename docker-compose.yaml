@@ -3,10 +3,10 @@ services:
   database:
     hostname: database
     image: postgres:15.1-alpine
-    # restart: always
+    restart: always
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=ead45021a2dc0195c9cb07840961a219
     ports:
       - 5432:5432
     volumes:
@@ -16,6 +16,7 @@ services:
         aliases:
           - database
   bot:
+      restart: always
       hostname: alert.com
       build: ./
       command: /srv/telegram_admin/run.sh
@@ -23,10 +24,10 @@ services:
         - DATABASE_URL=postgresql://postgres:postgres@database/ytb
         - BOT_TOKEN=6074772635:AAFKTvl-_QgcqELoSW6PAacEj5eAQvVb2QM
         - DATABASE_USER=postgres
-        - DATABASE_PASSWORD=postgres
+        - DATABASE_PASSWORD=ead45021a2dc0195c9cb07840961a219
         - DATABASE_URL=database
         - DEBUG=False
-        - DOMAIN=bot.hikmatillo.ru
+        - DOMAIN=alert-bot.hikmatillo.ru
       ports:
         - "88:88"
       depends_on:
@@ -44,3 +45,4 @@ networks:
 
 volumes:
   elof_database:
+

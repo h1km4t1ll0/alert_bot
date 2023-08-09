@@ -17,4 +17,7 @@ def start_command(message: Message):
 
 @bot.message_handler(content_types=['text'])
 def text(message: Message):
-    pass
+    bot.send_message(
+        message.chat.id,
+        message.text
+    )
