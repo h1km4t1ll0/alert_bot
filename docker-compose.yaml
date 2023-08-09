@@ -3,7 +3,7 @@ services:
   database:
     hostname: database
     image: postgres:15.1-alpine
-    restart: always
+    # restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=ead45021a2dc0195c9cb07840961a219
@@ -21,12 +21,14 @@ services:
       build: ./
       command: /srv/telegram_admin/run.sh
       environment:
-        - DATABASE_URL=postgresql://postgres:postgres@database/ytb
-        - BOT_TOKEN=6074772635:AAFKTvl-_QgcqELoSW6PAacEj5eAQvVb2QM
-        - DATABASE_USER=postgres
-        - DATABASE_PASSWORD=ead45021a2dc0195c9cb07840961a219
         - DATABASE_URL=database
+        - DATABASE_PASSWORD=ead45021a2dc0195c9cb07840961a219
+        - DATABASE_USER=postgres
+        - DATABASE_PORT=5432
+        - TABLE_NAME=alb
+        - BOT_TOKEN=6074772635:AAFKTvl-_QgcqELoSW6PAacEj5eAQvVb2QM
         - DEBUG=False
+        - SERVER=True
         - DOMAIN=alert-bot.hikmatillo.ru
       ports:
         - "88:88"
